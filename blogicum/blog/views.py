@@ -55,6 +55,8 @@ def index(request):
 
 def post_detail(request, id):
     template = 'blog/detail.html'
+    if not isinstance(id, int):
+        raise Http404(f'Некорректный параметр id: {id}')
     post = _posts.get(id)
     if post is None:
         raise Http404(f'Пост с id {id} не найден')
