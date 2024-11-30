@@ -73,10 +73,18 @@ def post_detail(request, post_id):
 
 def category_posts(request, category_slug):
     template = 'blog/category.html'
+    valid_categories = {
+        post['category'] for post in posts
+    }
+    if category_slug is None:
+        raise Http404(
+            f'Категория с названием "{category_slug}" не найдена.'
+        )
     posts_in_category = [
         post for post in posts
         if post['category'] == category_slug
     ]
+    posts_in_category.reverse()
     context = {
         'category_slug': category_slug,
         'posts': posts_in_category,
